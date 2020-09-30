@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/shell",
+            "outputPath": "dist/shell/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -121,8 +121,47 @@
               "devServerTarget": "shell:serve:production"
             }
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/shell/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "app-shell": {
+          "builder": "@angular-devkit/build-angular:app-shell",
+          "options": {
+            "browserTarget": "shell:build",
+            "serverTarget": "shell:server",
+            "route": "shell"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "shell:build:production",
+              "serverTarget": "shell:server:production"
+            }
+          }
         }
       }
-    }},
-  "defaultProject": "shell"
+    }
+  },
+  "defaultProject": "shell",
+  "cli": {
+    "analytics": "c2c69190-2ecf-4bcb-b34d-48fea6441f6d"
+  }
 }
